@@ -1,32 +1,35 @@
-function SmartDate(day, hour, month) {
-	this.setDate(day);
-	this.setHours(hour);
-	this.setMonth(month);
-}
+function SmartDate(date) {
 
-SmartDate.prototype.add = function(day, symbol) {
-	if(symbol == "d")
-	{
-		t2 = this.getTime + 15;
-		return parseInt(t2/(24*3600*1000));
+	this._workDate = new Date(date);										// Variable for date created
+
+	this.add = function(value, symbol) {									// Function for adding days or months added	
+		if(symbol == "d")													// Checking if user wants to add days
+		{
+			this._workDate.setDate(this._workDate.getDate() + value);		// Adds days
+			return this._workDate;											// Returns value of date with new day
+		}
+		else if(symbol == "m")												// Checking if user wants to add months
+		{
+			this._workDate.setMonth(this._workDate.getMonth() + value);		// Adds months
+			return this._workDate;											// Returns new date with added months
+		}
 	}
-	else if(symbol == "m")
-	{
-		var dY = this.getFullYear();
-		var dM = this.getMonth();
-		return (dM+12*dY)+(2+12*dY);
+
+	this.substract = function(hours) {										// Function for subtraction
+		if(hours > 0)														// Checks if amount of hours more than 0
+		{	
+			this._workDate.setHours(this._workDate.getHours() - hours);		// Takes these hours
+			return this._workDate;											// Returns new value of date with taken hours
+		}
+		else 
+		{
+			return this._workDate.getDate() - this._workDate.getDate();		// Or subtract itself
+		}
+
+	}
+	this.toDate = function() {												// Function for returning value of date
+		return this._workDate;												// Returns current value of date
 	}
 }
-
-SmartDate.prototype.substract = function() {
-
-}
-
-SmartDate.prototype.toDate = function() {
-	var obj = {
-		day: day,
-		hour: hour,
-		month: month
-	};
-	return obj;
-}
+var a = new SmartDate("2008,7,7");
+alert(a.toDate());
